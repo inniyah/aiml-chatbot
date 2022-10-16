@@ -4,6 +4,8 @@ A parser for AIML files
 
 from __future__ import print_function
 
+import logging
+
 from xml.sax.handler import ContentHandler
 from xml.sax.xmlreader import Locator
 import sys

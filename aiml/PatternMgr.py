@@ -6,6 +6,7 @@ http://www.alicebot.org/documentation/matching.html
 
 from __future__ import print_function
 
+import logging
 import marshal
 import pprint
 import re
@@ -124,7 +125,6 @@ class PatternMgr:
                 if key not in node:
                     node[key] = {}
                 node = node[key]
-
 
         # add the template.
         if self._TEMPLATE not in node:

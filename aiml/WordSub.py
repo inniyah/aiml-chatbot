@@ -24,7 +24,6 @@ not.
 
 from __future__ import print_function
 
-
 # 'dict' objects weren't available to subclass from until version 2.2.
 # Get around this by importing UserDict.UserDict if the built-in dict
 # object isn't available.

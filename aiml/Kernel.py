@@ -5,6 +5,7 @@ from __future__ import print_function
 
 import copy
 import glob
+import logging
 import os
 import random
 import re
@@ -13,7 +14,9 @@ import sys
 import time
 import threading
 import xml.sax
+
 from collections import namedtuple
+
 try:
     from ConfigParser import ConfigParser
 except ImportError:
@@ -25,8 +28,6 @@ from . import Utils
 from .AimlParser import create_parser
 from .PatternMgr import PatternMgr
 from .WordSub import WordSub
-
-
 
 def msg_encoder(encoding=None):
     """
@@ -40,9 +41,6 @@ def msg_encoder(encoding=None):
     else:
         return Codec(lambda x: x.encode(encoding, 'replace'),
                      lambda x: x.decode(encoding, 'replace'))
-
-
-
 
 class Kernel:
     # module constants
@@ -156,7 +154,7 @@ class Kernel:
                 os.chdir(prev)
 
         if self._verboseMode:
-            print("Kernel bootstrap completed in %.2f seconds" % (time.time() - start))
+            logging.info(f"Kernel bootstrap completed in {time.time()-start:.2} seconds")
 
     def verbose(self, isVerbose=True):
         """Enable/disable verbose output mode."""
@@ -259,7 +257,6 @@ class Kernel:
         """
         self._textEncoding = encoding
         self._cod = msg_encoder(encoding)
-
 
     def loadSubs(self, filename):
         """Load a substitutions file.
@@ -396,7 +393,6 @@ class Kernel:
             # release the lock
             self._respondLock.release()
 
-
     # This version of _respond() just fetches the response for some input.
     # It does not mess with the input and output histories.  Recursive calls
     # to respond() spawned from tags like <srai> should call this function
@@ -473,7 +469,6 @@ class Kernel:
                 sys.stderr.write(err)
             return u""
         return handlerFunc(elem, sessionID)
-
 
     ######################################################
     ### Individual element-processing functions follow ###

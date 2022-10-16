@@ -24,4 +24,3 @@ def sentences(s):
     # the entire input string.
     if len(sentenceList) == 0: sentenceList.append(s)
     return sentenceList
-
