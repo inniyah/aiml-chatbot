@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+    <category>
+        <pattern>WHO IS THE REAL IRON MAN</pattern>
+        <plugin name="ironman">
+            Data you want sent to plugin if pattern matched
+        </plugin>
+    </category>   
+    <category>
+        <pattern>WHO IS IRON MAN</pattern>
+        <template>
+            <srai>WHO IS THE REAL IRON MAN</srai>
+        </template>
+    </category>
+    <category>
+        <pattern>DO YOU KNOW WHO IRON MAN REALLY IS</pattern>
+        <template>
+            <srai>WHO IS THE REAL IRON MAN</srai>
+        </template>
+    </category>
+</aiml>

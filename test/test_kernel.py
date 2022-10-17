@@ -10,7 +10,7 @@ class TestKernel( unittest.TestCase ):
 
     def setUp(self):
         self.k = Kernel()
-        testfile = os.path.join(os.path.dirname(__file__),"self-test.aiml")
+        testfile = os.path.join(os.path.dirname(__file__), "self-test.aiml")
         self.k.bootstrap(learnFiles=testfile)
 
     def tearDown(self):
