@@ -34,8 +34,6 @@ def run_chatbot():
 
     bot = aiml.Kernel()
 
-    bot.loadPlugins("./plugins");
-
     # To increase the startup speed of the bot it is
     # possible to save the parsed aiml files as a
     # dump. This code checks if a dump exists and
@@ -47,6 +45,7 @@ def run_chatbot():
     else:
         logging.info(f"Parsing AIML files")
         bot.bootstrap(learnFiles=STARTUP_AIML, commands=STARTUP_COMMAND)
+        bot.loadPlugins("plugins");
         if BRAIN_FILE is not None:
             logging.info(f"Saving brain file: '{BRAIN_FILE}'")
             bot.saveBrain(BRAIN_FILE)

@@ -346,12 +346,12 @@ class Kernel:
                 print("done (%.2f seconds)" % (time.time() - start))
 
     def loadPlugins(self, path = "./plugins"):
-        aimlFiles = sorted(glob2.glob(path+'/*/*.aiml'))
+        aimlFiles = sorted(glob2.glob(path + '/*/*.aiml'))
         for file in aimlFiles:
             self.learn(file)
 
         #load Classes from all plugins and create/store instance of each plugin
-        pluginPaths = glob2.glob(path+'/*/*.py')
+        pluginPaths = glob2.glob(path + '/*/*.py')
         self.plugins = {}
         for plugin in pluginPaths:
             filename = os.path.splitext(os.path.basename(plugin))[0]
