@@ -131,7 +131,7 @@ class Kernel:
         processing). Upon returning the current directory is moved back to
         where it was before.
         """
-        start = time.time()
+        start = time.perf_counter()
         if brainFile:
             self.loadBrain(brainFile)
 
@@ -158,7 +158,7 @@ class Kernel:
                 os.chdir(prev)
 
         if self._verboseMode:
-            logging.info(f"Kernel bootstrap completed in {time.time()-start:.2} seconds")
+            logging.info(f"Kernel bootstrap completed in {time.perf_counter() - start:.2} seconds")
 
     def verbose(self, isVerbose=True):
         """Enable/disable verbose output mode."""
@@ -192,19 +192,19 @@ class Kernel:
 
         """
         if self._verboseMode: print( "Loading brain from %s..." % filename, end="" )
-        start = time.time()
+        start = time.perf_counter()
         self._brain.restore(filename)
         if self._verboseMode:
-            end = time.time() - start
+            end = time.perf_counter() - start
             print( "done (%d categories in %.2f seconds)" % (self._brain.numTemplates(), end) )
 
     def saveBrain(self, filename):
         """Dump the contents of the bot's brain to a file on disk."""
         if self._verboseMode: print( "Saving brain to %s..." % filename, end="")
-        start = time.time()
+        start = time.perf_counter()
         self._brain.save(filename)
         if self._verboseMode:
-            print("done (%.2f seconds)" % (time.time() - start))
+            print("done (%.2f seconds)" % (time.perf_counter() - start))
 
     def getPredicate(self, name, sessionID=_globalSessionID):
         """Retrieve the current value of the predicate 'name' from the
@@ -328,7 +328,7 @@ class Kernel:
         """
         for f in glob.glob(filename):
             if self._verboseMode: print( "Loading %s..." % f, end="")
-            start = time.time()
+            start = time.perf_counter()
             # Load and parse the AIML file.
             parser = create_parser()
             handler = parser.getContentHandler()
@@ -343,7 +343,7 @@ class Kernel:
                 self._brain.add(key, tem)
             # Parsing was successful.
             if self._verboseMode:
-                print("done (%.2f seconds)" % (time.time() - start))
+                print("done (%.2f seconds)" % (time.perf_counter() - start))
 
     def loadPlugins(self, path = "./plugins"):
         aimlFiles = sorted(glob2.glob(path + '/*/*.aiml'))
