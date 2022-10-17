@@ -22,16 +22,9 @@ Note that "he" and "he'd" were replaced, but "help" and "her" were
 not.
 """
 
-from __future__ import print_function
-
-# 'dict' objects weren't available to subclass from until version 2.2.
-# Get around this by importing UserDict.UserDict if the built-in dict
-# object isn't available.
-try: dict
-except: from UserDict import UserDict as dict
-
 import re
 import string
+
 try:
     from ConfigParser import ConfigParser
 except ImportError:

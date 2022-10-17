@@ -20,6 +20,9 @@ sys.path.append(os.path.abspath(os.path.join(MY_PATH, '.')))
 BRAIN_FILE = None
 LOGS_DIRECTORY = None
 
+STARTUP_AIML = "std-startup.aiml"
+STARTUP_COMMAND = "load aiml b"
+
 exit_program = False
 
 def exit():
@@ -29,7 +32,9 @@ def exit():
 def run_chatbot():
     global exit_program
 
-    k = aiml.Kernel()
+    bot = aiml.Kernel()
+
+    bot.loadPlugins("./plugins");
 
     # To increase the startup speed of the bot it is
     # possible to save the parsed aiml files as a
@@ -38,13 +43,13 @@ def run_chatbot():
     # and saves the brain dump.
     if BRAIN_FILE is not None and os.path.exists(BRAIN_FILE):
         logging.info(f"Loading from brain file: '{BRAIN_FILE}'")
-        k.loadBrain(BRAIN_FILE)
+        bot.loadBrain(BRAIN_FILE)
     else:
         logging.info(f"Parsing AIML files")
-        k.bootstrap(learnFiles="std-startup.aiml", commands="load aiml b")
+        bot.bootstrap(learnFiles=STARTUP_AIML, commands=STARTUP_COMMAND)
         if BRAIN_FILE is not None:
             logging.info(f"Saving brain file: '{BRAIN_FILE}'")
-            k.saveBrain(BRAIN_FILE)
+            bot.saveBrain(BRAIN_FILE)
 
     # Endless loop which passes the input to the bot and prints
     # its response
@@ -52,8 +57,9 @@ def run_chatbot():
         try:
             input_text = input("> ")
         except EOFError:
+            print('')
             break
-        response = k.respond(input_text)
+        response = bot.respond(input_text)
         print(response)
 
     return 0

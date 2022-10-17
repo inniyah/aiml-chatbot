@@ -4,8 +4,6 @@ by Dr. Richard Wallace at the following site:
 http://www.alicebot.org/documentation/matching.html
 '''
 
-from __future__ import print_function
-
 import logging
 import marshal
 import pprint

@@ -1,10 +1,10 @@
 # -*- coding: latin-1 -*-
 """This file contains the public interface to the aiml module."""
 
-from __future__ import print_function
-
 import copy
 import glob
+import glob2
+import imp 
 import logging
 import os
 import random
@@ -63,6 +63,9 @@ class Kernel:
         self._sessions = {}
         self._addSession(self._globalSessionID)
 
+        self._currentPlugin = ""
+        self.plugins = {}
+
         # Set up the bot predicates
         self._botPredicates = {}
         self.setBotPredicate("name", "Nameless")
@@ -91,6 +94,7 @@ class Kernel:
             "lowercase":    self._processLowercase,
             "person":       self._processPerson,
             "person2":      self._processPerson2,
+            "plugin" :      self._processPlugin,
             "random":       self._processRandom,
             "text":         self._processText,
             "sentence":     self._processSentence,
@@ -341,6 +345,22 @@ class Kernel:
             if self._verboseMode:
                 print("done (%.2f seconds)" % (time.time() - start))
 
+    def loadPlugins(self, path = "./plugins"):
+        aimlFiles = sorted(glob2.glob(path+'/*/*.aiml'))
+        for file in aimlFiles:
+            self.learn(file)
+
+        #load Classes from all plugins and create/store instance of each plugin
+        pluginPaths = glob2.glob(path+'/*/*.py')
+        self.plugins = {}
+        for plugin in pluginPaths:
+            filename = os.path.splitext(os.path.basename(plugin))[0]
+            if filename in os.path.dirname(plugin): # only load modules with same name as plugin directory
+                module_ = imp.load_source(filename, plugin)
+                class_ = getattr(module_, filename)
+                self.plugins[filename] = class_()
+                print("Loaded response plugin: " + filename)
+
     def respond(self, input_, sessionID=_globalSessionID):
         """Return the Kernel's response to the input string."""
         if len(input_) == 0:
@@ -384,7 +404,11 @@ class Kernel:
                 # append this response to the final response.
                 finalResponse += (response + u"  ")
 
-            finalResponse = finalResponse.strip()
+            if self._currentPlugin != "":   
+                finalResponse = self.plugins[self._currentPlugin].getResponse(finalResponse.strip()).strip()
+                self._currentPlugin = ""
+            else:
+                finalResponse = finalResponse.strip()
             #print( "@ASSERT", self.getPredicate(self._inputStack, sessionID))
             assert(len(self.getPredicate(self._inputStack, sessionID)) == 0)
 
@@ -970,6 +994,21 @@ class Kernel:
 
         """
         response = ""
+        for e in elem[2:]:
+            response += self._processElement(e, sessionID)
+        return response
+
+    # <plugin>
+    def _processPlugin(self,elem, sessionID):
+        """Process a <plugin> AIML element.
+
+        <plugin> elements recursively process their contents, and
+        return the results.  <plugin> is the root node of an AIML
+        response tree.
+
+        """
+        response = ""
+        self._currentPlugin = elem[1]['name']
         for e in elem[2:]:
             response += self._processElement(e, sessionID)
         return response
