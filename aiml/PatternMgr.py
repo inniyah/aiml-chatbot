@@ -21,7 +21,8 @@ class PatternMgr:
     _THAT       = 3
     _TOPIC      = 4
     _BOT_NAME   = 5
-    
+    _CARET      = 6
+
     def __init__(self):
         self._root = {}
         self._templateCount = 0
@@ -84,6 +85,8 @@ class PatternMgr:
         node = self._root
         for word in pattern.split():
             key = word
+            if key == u"^":
+                key = self._CARET
             if key == u"_":
                 key = self._UNDERSCORE
             elif key == u"*":
@@ -101,6 +104,8 @@ class PatternMgr:
             node = node[self._THAT]
             for word in that.split():
                 key = word
+                if key == u"^":
+                    key = self._CARET
                 if key == u"_":
                     key = self._UNDERSCORE
                 elif key == u"*":
@@ -116,6 +121,8 @@ class PatternMgr:
             node = node[self._TOPIC]
             for word in topic.split():
                 key = word
+                if key == u"^":
+                    key = self._CARET
                 if key == u"_":
                     key = self._UNDERSCORE
                 elif key == u"*":
@@ -326,6 +333,25 @@ class PatternMgr:
                 if template is not None:
                     newPattern = [self._STAR] + pattern
                     return (newPattern, template)
+
+        # Check Caret.
+        if self._CARET in root:
+            # Must include the case where suf is [] in order to handle the case
+            # where a * or _ is at the end of the pattern.
+            for j in range(len(suffix)+1):
+                suf = suffix[j:]
+                pattern, template = self._match(suf, thatWords, topicWords, root[self._CARET])
+                if template is not None:
+                    newPattern = [self._UNDERSCORE] + pattern
+                    return (newPattern, template)
+                else:
+                    pattern, template = self._match(suffix, thatWords, topicWords, root[self._CARET])
+                    if template is None:
+                        pattern, template = self._match(words, thatWords, topicWords, root[self._CARET])
+                        if template is not None:
+                            return (pattern, template)
+                    else:
+                        return (pattern, template)
 
         # No matches were found.
         return (None, None)         
