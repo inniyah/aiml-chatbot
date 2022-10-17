@@ -210,8 +210,10 @@ class Kernel:
         string is returned.
 
         """
-        try: return self._sessions[sessionID][name]
-        except KeyError: return ""
+        try:
+            return self._sessions[sessionID][name]
+        except KeyError:
+            return ""
 
     def setPredicate(self, name, value, sessionID = _globalSessionID):
         """Set the value of the predicate 'name' in the specified
