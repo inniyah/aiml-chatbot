@@ -1,10 +1,6 @@
-# -*- coding: latin-1 -*-
-
-from __future__ import print_function
 import unittest
 
 from aiml.WordSub import WordSub
-
 
 class TestWordSub( unittest.TestCase ):
 
@@ -32,4 +28,3 @@ class TestWordSub( unittest.TestCase ):
         inStr =  "I'd like one apple, one Orange and one BANANA."
         outStr = "I Would like one banana, one Pear and one APPLE."
         self.assertEqual( outStr, self.subber.sub(inStr) )
-

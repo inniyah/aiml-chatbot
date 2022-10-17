@@ -1,14 +1,9 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import print_function
 import time
 import os.path
 import unittest
 import sys
 
 from aiml import Kernel
-
-
 
 class TestEncoding( unittest.TestCase ):
 

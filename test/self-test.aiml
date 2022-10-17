@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 This file contains some simple AIML categories designed to test the Python
 AIML interpreter kernel.  Do not make any modifications to this file without
@@ -254,8 +254,8 @@ Nothing <random></random>here!
 
 <!-- unicode support -->
 <category>
-<pattern>ÔÇÉÏºÃ</pattern>
-<template>Hey, you speak Chinese! ÔÇÉÏºÃ</template>
+<pattern>ä½ å¥½</pattern>
+<template>Hey, you speak Chinese! ä½ å¥½</template>
 </category>
 
 <!-- whitespace preservation -->

@@ -1,13 +1,8 @@
-# -*- coding: latin-1 -*-
-
-from __future__ import print_function
 import time
 import os.path
 import unittest
 
 from aiml import Kernel
-
-
 
 class TestKernel( unittest.TestCase ):
 
@@ -82,12 +77,10 @@ class TestKernel( unittest.TestCase ):
     def test09_input( self ):
         self._testTag('input', 'test input', ['You just said: test input'])
 
-
     def test10_person( self ):
         self._testTag('person', 'test person', ['HE think i knows that my actions threaten him and his.'])
         self._testTag('person2', 'test person2', ['YOU think me know that my actions threaten you and yours.'])
         self._testTag('person2 (no contents)', 'test person2 I Love Lucy', ['YOU Love Lucy'])
-
 
     def test11_random( self ):
         self._testTag('random', 'test random', ["response #1", "response #2", "response #3"])
@@ -133,7 +126,7 @@ class TestKernel( unittest.TestCase ):
         self._testTag('topicstar test #2', 'test topicstar multiple', ["Both Soylents Ham and Cheese are made of people!"])
 
     def test17_unicode( self ):
-        self._testTag('unicode support', u"郧上好", [u"Hey, you speak Chinese! 郧上好"])
+        self._testTag('unicode support', u"浣犲ソ", [u"Hey, you speak Chinese! 浣犲ソ"])
 
     def test18_version( self ):
         self._testTag('version', 'test version', ["PyAIML is version %s" % self.k.version()])

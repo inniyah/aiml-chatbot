@@ -1,13 +1,15 @@
+#!/usr/bin/env python3
+
 # A script to enable execution of any python unit test in this directory.
 # It will be called when Python tries to 'execute' this directory
 """
 Usage:
 
   * execute all unit tests in this dir
-       python <dir> [options] [-a]
+       python3 <dir> [options] [-a]
  
   * execute a certain set of tests
-       python <dir> [options] <name1> <name2> ... 
+       python3 <dir> [options] <name1> <name2> ... 
 
 Options:
   -f:  failfast (abort with the first test that fails)
@@ -16,13 +18,10 @@ Options:
   -d LEVEL: set debug level
 """
 
-from __future__ import print_function
-
 import re
 import unittest
 import os.path
 import sys
-
 
 # --------------------------------------------------------------------
 
@@ -40,7 +39,6 @@ def script_list( path ):
         if m:
             r.append( m.group(1) )
     return sorted(r)
-
 
 # --------------------------------------------------------------------
 
@@ -79,7 +77,6 @@ def read_opts():
         sys.argv.pop(1)    # remove the just-used argument
     return opt
 
-
 # --------------------------------------------------------------------
 
 def load_tests( opt=None ):
@@ -111,7 +108,6 @@ def load_tests( opt=None ):
         suite.addTest( loader.loadTestsFromName( 'test.' + test ) )
 
     return suite
-
 
 if __name__ == '__main__':
     # Usage message
