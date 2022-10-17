@@ -1,9 +1,10 @@
+#!/usr/bin/env python3
+
 """
 This file contains the PyAIML stress test.  It creates two bots, and connects
 them in a cyclic loop.  A lot of output is generated; piping the results to
 a log file is highly recommended.
 """
-from __future__ import print_function
 
 import aiml
 
